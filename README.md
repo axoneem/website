@@ -43,7 +43,7 @@ Our primary focus is **Papaya**, a local-first personal finance application buil
 *UI, Engineering*  
 [GitHub] [Twitter] [Website]
 
-**Sam Warran** ? *Core Developer*  
+**Sam Warren** ? *Co-Founder, Core Developer*  
 *UI, Engineering*  
 [GitHub] [Twitter] [Website]
 
