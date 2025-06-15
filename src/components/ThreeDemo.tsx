@@ -5,8 +5,8 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { DotScreenShader } from './CustomShader';
+// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+// import { DotScreenShader } from './CustomShader';
 
 // Shader for the grainy gradient background
 const vertexShader = `
@@ -57,7 +57,7 @@ float noise(vec3 p){
 
 float lines(vec2 uv, float offset){
 	return smoothstep(
-		0., 0.5 + offset*0.5,
+		0., 0.8 + offset*0.8,
 		0.5*abs((sin(uv.x*35.) + offset*2.))
 	);
 }
@@ -70,19 +70,26 @@ mat2 rotate2D(float angle){
 }
 
 void main()	{
-	vec3 baseFirst =  vec3(100./255., 150./255., 255./255.);
-	vec3 accent =  vec3(20./255., 20./255., 40./255.);
-	vec3 baseSecond =  vec3(180./255., 100./255., 255./255.);
+	vec3 baseFirst =  vec3(180./255., 40./255., 30./255.);
+	vec3 accent =  vec3(0., 0., 0.);
+	vec3 baseSecond =  vec3(40./255., 100./255., 60./255.);
+	vec3 baseThird = vec3(200./255., 160./255., 30./255.);
 	float n = noise(vPosition + time);
 
 	vec2 baseUV = rotate2D(n) * vPosition.xy * 0.1;
 	float basePattern = lines(baseUV, 0.5);
 	float secondPattern = lines(baseUV, 0.1);
+	float thirdPattern = lines(baseUV * 1.3, 0.3);
 
 	vec3 baseColor = mix(baseSecond, baseFirst, basePattern);
-	vec3 secondBaseColor = mix(baseColor, accent, secondPattern);
+	vec3 secondBaseColor = mix(baseColor, baseThird, secondPattern);
+	vec3 finalColor = mix(secondBaseColor, accent, thirdPattern);
 
-	gl_FragColor = vec4(vec3(secondBaseColor), 1.);
+	// Add film noise that changes over time (reduced opacity)
+	float filmNoise = noise(vPosition * 800.0 + time * 100.0) * 0.03;
+	finalColor += filmNoise;
+
+	gl_FragColor = vec4(vec3(finalColor), 1.);
 }
 `;
 
@@ -146,9 +153,10 @@ export function ThreeDemo() {
     const composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
 
-    const effect1 = new ShaderPass(DotScreenShader);
-    effect1.uniforms['scale'].value = 4;
-    composer.addPass(effect1);
+    // Temporarily removed DotScreenShader to eliminate noise
+    // const effect1 = new ShaderPass(DotScreenShader);
+    // effect1.uniforms['scale'].value = 4;
+    // composer.addPass(effect1);
 
     // Store references
     sceneRef.current = {
