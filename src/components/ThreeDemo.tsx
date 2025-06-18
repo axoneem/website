@@ -5,8 +5,6 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-// import { DotScreenShader } from './CustomShader';
 
 // Shader for the grainy gradient background
 const vertexShader = `
@@ -70,10 +68,10 @@ mat2 rotate2D(float angle){
 }
 
 void main()	{
-	vec3 baseFirst =  vec3(180./255., 40./255., 30./255.);
-	vec3 accent =  vec3(0., 0., 0.);
-	vec3 baseSecond =  vec3(40./255., 100./255., 60./255.);
-	vec3 baseThird = vec3(200./255., 160./255., 30./255.);
+	vec3 baseFirst =  vec3(101./255., 100./255., 99./255.);
+	vec3 accent =  vec3(0./255., 2./255., 1./255.);
+	vec3 baseSecond =  vec3(50./255., 50./255., 50./255.);
+	vec3 baseThird = vec3(200./255., 200./255., 200./255.);
 	float n = noise(vPosition + time);
 
 	vec2 baseUV = rotate2D(n) * vPosition.xy * 0.1;
@@ -86,7 +84,7 @@ void main()	{
 	vec3 finalColor = mix(secondBaseColor, accent, thirdPattern);
 
 	// Add film noise that changes over time (reduced opacity)
-	float filmNoise = noise(vPosition * 800.0 + time * 100.0) * 0.03;
+	float filmNoise = noise(vPosition * 800.0 + time * 100.0) * 0.15;
 	finalColor += filmNoise;
 
 	gl_FragColor = vec4(vec3(finalColor), 1.);
