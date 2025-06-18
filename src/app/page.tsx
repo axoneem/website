@@ -5,8 +5,8 @@ import { ScrollShrinkSection } from "@/components/ScrollShrinkSection";
 export default function Home() {
   return (
     <div className="w-full">
-      {/* Topbar */}
-      <header className="fixed top-0 left-0 right-0 z-50 p-8 text-white">
+      {/* Topbar - sticky header */}
+      <header className="sticky top-0 z-50 p-8 text-white">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center">
             <div className="w-8 h-8">
@@ -18,9 +18,9 @@ export default function Home() {
 
       {/* Hero Section with Scroll Shrink Effect */}
       <ScrollShrinkSection
-        borderSize={32}
-        shrinkDistance={300}
-        className="flex items-end"
+        headerHeight={80}
+        shrinkDistance={150}
+        className=""
         background={<ThreeDemo />}
       >
         <div className="max-w-4xl p-32">
@@ -104,6 +104,16 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <footer className="py-20 bg-gray-50" style={{ height: "100vh" }}>
+        <div className="container mx-auto px-6">
+          <h2 className="text-4xl font-bold text-gray-900 mb-16 text-center">
+            Contact Us
+          </h2>
+          
+          
+        </div>
+      </footer>
     </div>    
   );
 }

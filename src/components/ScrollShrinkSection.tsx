@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState, useRef, ReactNode } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 
 interface ScrollShrinkSectionProps {
   children: ReactNode;
   background: ReactNode;
-  borderSize?: number;
+  headerHeight?: number;
   shrinkDistance?: number;
   className?: string;
 }
@@ -13,75 +13,69 @@ interface ScrollShrinkSectionProps {
 export function ScrollShrinkSection({ 
   children, 
   background, 
-  borderSize = 32, 
-  shrinkDistance = 200,
+  headerHeight = 80, 
+  shrinkDistance = 150,
   className = ""
 }: ScrollShrinkSectionProps) {
   const [scrollY, setScrollY] = useState(0);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const backgroundRef = useRef<HTMLDivElement>(null);
+  const [windowHeight, setWindowHeight] = useState(1024);
 
   useEffect(() => {
+    const updateWindowHeight = () => {
+      setWindowHeight(window.innerHeight);
+    };
+    
+    updateWindowHeight();
+    window.addEventListener('resize', updateWindowHeight);
+
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', updateWindowHeight);
+    };
   }, []);
 
   // Calculate shrink progress (0 to 1)
-  const shrinkProgress = Math.min(scrollY / shrinkDistance, 1);
+  const shrinkProgress = Math.min(Math.max(scrollY / shrinkDistance, 0), 1);
   
-  // Calculate scale and border radius based on scroll progress
-  const scale = 1 - (shrinkProgress * 0.1); // Shrink by 10% max
-  const borderRadius = shrinkProgress * 24; // Max 24px border radius
-  const margin = shrinkProgress * borderSize; // Create border effect
+  // Calculate shrinking from all sides
+  const borderSize = 32;
+  const margin = shrinkProgress * borderSize;
+  const borderRadius = shrinkProgress * 24;
   
-  // Calculate transform for the entire section after shrink is complete
-  const translateY = scrollY > shrinkDistance ? -(scrollY - shrinkDistance) : 0;
+  // Calculate the current height of the background
+  const backgroundHeight = windowHeight - (windowHeight - headerHeight) * shrinkProgress;
 
   return (
-    <div 
-      ref={sectionRef}
-      className={`relative w-full min-h-screen ${className}`}
-      style={{
-        transform: `translateY(${translateY}px)`,
-      }}
-    >
-      {/* Background with shrink effect */}
+    <div className="relative">
+      {/* Fixed background that shrinks from all sides */}
       <div 
-        ref={backgroundRef}
-        className="absolute inset-0 w-full h-full overflow-hidden"
-        style={{
-          transform: `scale(${scale})`,
-          borderRadius: `${borderRadius}px`,
+        className="fixed top-0 left-0 right-0 z-20 overflow-hidden"
+        style={{ 
+          height: `${backgroundHeight}px`,
           margin: `${margin}px`,
           width: `calc(100% - ${margin * 2}px)`,
-          height: `calc(100% - ${margin * 2}px)`,
-          transition: scrollY === 0 ? 'all 0.3s ease-out' : 'none',
+          borderRadius: `${borderRadius}px`
         }}
       >
         {background}
       </div>
-      
-      {/* Content overlay */}
-      <div 
-        className="relative z-10 h-full"
-        style={{
-          transform: `scale(${scale})`,
-          margin: `${margin}px`,
-          transition: scrollY === 0 ? 'all 0.3s ease-out' : 'none',
-        }}
-      >
-        {children}
-      </div>
 
-      {/* Spacer to account for scroll distance */}
+      {/* Main content section */}
       <div 
-        className="w-full" 
-        style={{ height: `${shrinkDistance}px` }}
-      />
+        className={`relative w-full ${className}`}
+        style={{ height: `${windowHeight}px` }}
+      >
+        {/* Content overlay - higher z-index than background */}
+        <div className="relative z-30 w-full h-full flex items-end">
+          {children}
+        </div>
+      </div>
     </div>
   );
 } 
