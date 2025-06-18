@@ -1,5 +1,6 @@
 import Logo from "@/components/logo";
 import { ThreeDemo } from "@/components/ThreeDemo";
+import { ScrollShrinkSection } from "@/components/ScrollShrinkSection";
 
 export default function Home() {
   return (
@@ -15,15 +16,14 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero Section with ThreeDemo Background */}
-      <section className="relative w-full min-h-screen flex items-end overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 w-full h-full">
-          <ThreeDemo />
-        </div>
-        
-        {/* Content Overlay */}
-        <div className="relative z-10 max-w-4xl p-32">
+      {/* Hero Section with Scroll Shrink Effect */}
+      <ScrollShrinkSection
+        borderSize={32}
+        shrinkDistance={300}
+        className="flex items-end"
+        background={<ThreeDemo />}
+      >
+        <div className="max-w-4xl p-32">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
             We Are Axoneme
           </h1>
@@ -44,7 +44,7 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </section>
+      </ScrollShrinkSection>
 
       {/* Active Projects Section */}
       <section className="py-20 bg-white">
