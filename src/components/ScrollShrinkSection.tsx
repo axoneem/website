@@ -1,135 +1,103 @@
 'use client';
 
 import { useEffect, useRef, ReactNode, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-// Register ScrollTrigger plugin
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 interface ScrollShrinkSectionProps {
   children: ReactNode;
   background: ReactNode;
   headerHeight?: number;
-  shrinkDistance?: number;
   className?: string;
 }
 
 export function ScrollShrinkSection({ 
   children, 
   background, 
-  headerHeight = 80, 
-  shrinkDistance = 1500,
+  headerHeight = 80,
   className = ""
 }: ScrollShrinkSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const backgroundRef = useRef<HTMLDivElement>(null);
-  const decorativeRef = useRef<HTMLDivElement>(null);
-  const [windowHeight, setWindowHeight] = useState(1024);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const [isAtTop, setIsAtTop] = useState(true);
 
   useEffect(() => {
-    if (!containerRef.current || !backgroundRef.current) return;
+    if (!sentinelRef.current) return;
 
-    // Set window height safely
-    const currentWindowHeight = window.innerHeight;
-    setWindowHeight(currentWindowHeight);
-    
-    const borderSize = 32;
-    const initialPadding = 128;
-
-    // Create timeline for all animations
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: `+=${shrinkDistance}`,
-        scrub: 1 // Smooth scrubbing
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        setIsAtTop(entry.isIntersecting);
+      },
+      {
+        threshold: 0,
+        rootMargin: '0px'
       }
-    });
+    );
 
-    // Background shrinking animation
-    tl.to(backgroundRef.current, {
-      duration: 1,
-      ease: "power2.inOut",
-      height: headerHeight,
-      marginTop: borderSize,
-      marginLeft: borderSize,
-      marginRight: borderSize,
-      width: `calc(100% - ${borderSize * 2}px)`,
-      borderRadius: 24,
-      zIndex: 40 // Move above hero text at the end
-    })
-    
-    // Decorative element animation (starts at 30% progress)
-    .to(decorativeRef.current, {
-      duration: 0.7,
-      ease: "back.out(1.7)",
-      width: 140,
-      height: 140,
-      opacity: 1,
-      scale: 1
-    }, 0.3); // Start at 30% of timeline
-
-    // Set initial states
-    gsap.set(backgroundRef.current, {
-      height: currentWindowHeight + initialPadding,
-      borderRadius: 0
-    });
-
-    gsap.set(decorativeRef.current, {
-      width: 0,
-      height: 0,
-      opacity: 0,
-      scale: 0.8
-    });
+    observer.observe(sentinelRef.current);
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      observer.disconnect();
     };
-  }, [headerHeight, shrinkDistance]);
+  }, []);
 
   return (
-    <div className="relative">
-      {/* Fixed background that shrinks from all sides */}
+    <div 
+      className="relative"
+      style={{ '--header-height': `${headerHeight}px` } as React.CSSProperties}
+    >
+      {/* Sentinel element to detect when we're at the very top */}
       <div 
-        ref={backgroundRef}
-        className="fixed top-0 left-0 right-0 z-20 overflow-hidden"
+        ref={sentinelRef}
+        className="absolute top-0 left-0 w-full h-1 pointer-events-none -z-10"
+      />
+
+      {/* Fixed background that transitions between expanded and shrunk states */}
+      <div 
+        className={`
+          fixed left-0 right-0 overflow-hidden
+          transition-all duration-300
+          ${isAtTop 
+            ? 'top-0 h-[calc(100dvh+8rem)] w-full m-0 rounded-none z-20' 
+            : 'top-8 h-[var(--header-height)] w-[calc(100%-4rem)] mx-8 rounded-3xl z-40'
+          }
+        `}
         style={{
-          height: `${windowHeight + 128}px`,
-          width: '100%',
-          borderRadius: '0px'
+          transitionTimingFunction: 'cubic-bezier(0.19, 1, 0.22, 1)'
         }}
       >
         {background}
       </div>
 
-      {/* Main content section - tall enough for sticky behavior */}
+      {/* Main content section */}
       <div 
         ref={containerRef}
-        className={`relative w-full ${className}`}
-        style={{ height: `${windowHeight + shrinkDistance}px` }}
+        className={`relative w-full h-[100dvh] ${className}`}
       >
-        {/* Sticky content overlay - stays in place while background shrinks */}
-        <div 
-          className="sticky left-0 right-0 z-30 flex items-end"
-          style={{ 
-            height: `${windowHeight}px`,
-            top: `0px`
-          }}
-        >
+        {/* Content overlay */}
+        <div className="absolute inset-0 z-30 flex items-end">
           <div className="relative w-full flex items-end">
             {children}
             
-            {/* Decorative square that appears as background shrinks */}
+            {/* Decorative square that appears when background is shrunk */}
             <div 
-              ref={decorativeRef}
-              className="absolute right-8 bottom-8 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl"
+              className={`
+                absolute right-8 bottom-8 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl
+                transition-all duration-300
+                ${isAtTop 
+                  ? 'w-0 h-0 opacity-0 scale-75' 
+                  : 'w-[140px] h-[140px] opacity-100 scale-100'
+                }
+              `}
+              style={{
+                transitionTimingFunction: 'cubic-bezier(0.19, 1, 0.22, 1)'
+              }}
             />
           </div>
         </div>
       </div>
+
+      {/* Additional content space to allow scrolling */}
+      <div className="h-[200dvh]" />
     </div>
   );
 } 

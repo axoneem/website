@@ -19,7 +19,6 @@ export default function Home() {
       {/* Hero Section with Scroll Shrink Effect */}
       <ScrollShrinkSection
         headerHeight={80}
-        shrinkDistance={1200}
         className=""
         background={<ThreeDemo />}
       >
@@ -27,10 +26,10 @@ export default function Home() {
           <h1 className="text-5xl md:text-7xl text-white mb-8 leading-tight">
             We Are Axoneme
           </h1>
-          
-          <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed">
+
+          <h2 className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl leading-relaxed">
             An open-source developer collective building software that puts users first.
-          </p>
+          </h2>
           
           <div className="max-w-lg text-lg md:text-xl text-white/80 space-y-6">
             <p>
