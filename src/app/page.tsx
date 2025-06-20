@@ -24,7 +24,7 @@ export default function Home() {
         background={<ThreeDemo />}
       >
         <div className="max-w-4xl p-32">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+          <h1 className="text-5xl md:text-7xl text-white mb-8 leading-tight">
             We Are Axoneme
           </h1>
           
