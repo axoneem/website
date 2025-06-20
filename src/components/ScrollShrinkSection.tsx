@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, ReactNode } from 'react';
+import { useEffect, useRef, ReactNode, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -27,11 +27,15 @@ export function ScrollShrinkSection({
   const containerRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const decorativeRef = useRef<HTMLDivElement>(null);
+  const [windowHeight, setWindowHeight] = useState(1024);
 
   useEffect(() => {
     if (!containerRef.current || !backgroundRef.current) return;
 
-    const windowHeight = window.innerHeight;
+    // Set window height safely
+    const currentWindowHeight = window.innerHeight;
+    setWindowHeight(currentWindowHeight);
+    
     const borderSize = 32;
     const initialPadding = 128;
 
@@ -70,7 +74,7 @@ export function ScrollShrinkSection({
 
     // Set initial states
     gsap.set(backgroundRef.current, {
-      height: windowHeight + initialPadding,
+      height: currentWindowHeight + initialPadding,
       borderRadius: 0
     });
 
@@ -93,7 +97,7 @@ export function ScrollShrinkSection({
         ref={backgroundRef}
         className="fixed top-0 left-0 right-0 z-20 overflow-hidden"
         style={{
-          height: `${window.innerHeight + 128}px`,
+          height: `${windowHeight + 128}px`,
           width: '100%',
           borderRadius: '0px'
         }}
@@ -105,13 +109,13 @@ export function ScrollShrinkSection({
       <div 
         ref={containerRef}
         className={`relative w-full ${className}`}
-        style={{ height: `${window.innerHeight + shrinkDistance}px` }}
+        style={{ height: `${windowHeight + shrinkDistance}px` }}
       >
         {/* Sticky content overlay - stays in place while background shrinks */}
         <div 
           className="sticky left-0 right-0 z-30 flex items-end"
           style={{ 
-            height: `${window.innerHeight}px`,
+            height: `${windowHeight}px`,
             top: `0px`
           }}
         >
