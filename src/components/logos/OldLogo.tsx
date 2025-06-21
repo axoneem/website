@@ -1,4 +1,4 @@
-export default function Logo() {
+export default function OldLogo() {
   return (
     <svg
       width="100%"
