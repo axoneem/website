@@ -13,7 +13,7 @@ export default function Header() {
           .scroll-driven-background {
             animation: shrink-background cubic-bezier(0.8, 0, 0.14, 1) forwards;
             animation-timeline: scroll(root);
-            animation-range: 0dvh 50dvh;
+            animation-range: 0dvh 60dvh;
             /* Initial state */
             top: 0;
             right: 0;
