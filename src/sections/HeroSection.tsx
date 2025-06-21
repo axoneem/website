@@ -8,12 +8,12 @@ import { useRef } from "react";
 
 export function HeroSection() {
   const h1Ref = useRef(null);
-  const h2Ref = useRef(null);
+  const h3Ref = useRef(null);
   const p1Ref = useRef(null);
   const p2Ref = useRef(null);
 
   const h1InView = useInView(h1Ref, { amount: 0.3, margin: "-300px 0px 0px 0px" });
-  const h2InView = useInView(h2Ref, { amount: 0.3, margin: "-300px 0px 0px 0px" });
+  const h3InView = useInView(h3Ref, { amount: 0.3, margin: "-300px 0px 0px 0px" });
   const p1InView = useInView(p1Ref, { amount: 0.3, margin: "-300px 0px 0px 0px" });
   const p2InView = useInView(p2Ref, { amount: 0.3, margin: "-300px 0px 0px 0px" });
 
@@ -23,7 +23,7 @@ export function HeroSection() {
     //   background={<ThreeDemo />}
     // >
     <section className='py-24 min-h-[100dvh] pt-[var(--header-height)] flex items-end'>
-      <Container className="hero-text-container relative z-50">
+      <Container className="hero-text-container relative z-50 pointer-events-none">
         <motion.h1 
           ref={h1Ref}
           className="text-5xl md:text-7xl text-white mb-8 leading-tight"
@@ -38,19 +38,19 @@ export function HeroSection() {
           We Are Axoneme
         </motion.h1>
 
-        <motion.h2 
-          ref={h2Ref}
+        <motion.h3 
+          ref={h3Ref}
           className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl leading-relaxed"
           initial={{ opacity: 0, y: 40 }}
-          animate={h2InView ? { opacity: 1, y: 0 } : { opacity: 0, y: 0 }}
+          animate={h3InView ? { opacity: 1, y: 0 } : { opacity: 0, y: 0 }}
           transition={{ 
             duration: 0.8,
             ease: [0.25, 0.1, 0.25, 1],
-            delay: h2InView ? 0.3 : 0
+            delay: h3InView ? 0.3 : 0
           }}
         >
           An open-source developer collective building software that puts users first.
-        </motion.h2>
+        </motion.h3>
         
         <div className="max-w-lg text-lg md:text-xl text-white/80 space-y-6">
           <motion.p

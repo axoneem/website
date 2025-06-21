@@ -110,8 +110,9 @@ export function ThreeDemo() {
     if (!containerRef.current) return;
 
     const container = containerRef.current;
-    const width = container.offsetWidth;
-    const height = container.offsetHeight;
+    // Always use full viewport dimensions to avoid sizing issues
+    const width = window.innerWidth;
+    const height = window.innerHeight;
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -147,6 +148,17 @@ export function ThreeDemo() {
     const backgroundSphere = new THREE.Mesh(geometry, material);
     scene.add(backgroundSphere);
 
+    // Add dark overlay for better text contrast
+    const overlayGeometry = new THREE.PlaneGeometry(4, 4);
+    const overlayMaterial = new THREE.MeshBasicMaterial({
+      color: 0x000000,
+      transparent: true,
+      opacity: 0.4
+    });
+    const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
+    overlay.position.z = 0.5; // Position slightly in front of the background
+    scene.add(overlay);
+
     // Post-processing
     const composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
@@ -168,12 +180,12 @@ export function ThreeDemo() {
       isPlaying: true
     };
 
-    // Resize handler
+    // Resize handler - always use full viewport
     const handleResize = () => {
-      if (!containerRef.current || !sceneRef.current.camera || !sceneRef.current.renderer || !sceneRef.current.composer) return;
+      if (!sceneRef.current.camera || !sceneRef.current.renderer || !sceneRef.current.composer) return;
       
-      const newWidth = containerRef.current.offsetWidth;
-      const newHeight = containerRef.current.offsetHeight;
+      const newWidth = window.innerWidth;
+      const newHeight = window.innerHeight;
       
       sceneRef.current.camera.aspect = newWidth / newHeight;
       sceneRef.current.camera.updateProjectionMatrix();
