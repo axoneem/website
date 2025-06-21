@@ -5,14 +5,12 @@ import { useEffect, useRef, ReactNode, useState } from 'react';
 interface ScrollShrinkSectionProps {
   children: ReactNode;
   background: ReactNode;
-  headerHeight?: number;
   className?: string;
 }
 
 export function ScrollShrinkSection({ 
   children, 
   background, 
-  headerHeight = 80,
   className = ""
 }: ScrollShrinkSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,10 +39,7 @@ export function ScrollShrinkSection({
   }, []);
 
   return (
-    <div 
-      className="relative"
-      style={{ '--header-height': `${headerHeight}px` } as React.CSSProperties}
-    >
+    <div className="relative">
       {/* Sentinel element to detect when we're at the very top */}
       <div 
         ref={sentinelRef}

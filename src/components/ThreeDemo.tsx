@@ -201,7 +201,7 @@ export function ThreeDemo() {
     const animate = () => {
       if (!sceneRef.current.isPlaying) return;
       
-      sceneRef.current.time = (sceneRef.current.time || 0) + 0.01;
+      sceneRef.current.time = (sceneRef.current.time || 0) + 0.005;
       
       // Smooth camera movement with momentum
       const lerp = 0.05; // Lower = more momentum/smoother
