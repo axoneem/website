@@ -1,9 +1,12 @@
+'use client';
+
 import { Container } from "@/components/Container";
 import copy from "@/constants/copy";
 import Button from "@/components/Button";
 import Chips from "@/components/Chips";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "motion/react";
 
 export default function ProjectsSection() {
   return (
@@ -15,7 +18,14 @@ export default function ProjectsSection() {
 
         <ul className="flex flex-col gap-48">
           {copy.projects.map((project) => (
-            <li className="grid grid-cols-1 md:grid-cols-[5fr_7fr] lg:grid-cols-2 gap-16" key={project.name}>
+            <motion.li 
+              className="grid grid-cols-1 md:grid-cols-[5fr_7fr] lg:grid-cols-2 gap-16" 
+              key={project.name}
+              initial={{ opacity: 0.25 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              viewport={{ once: false, amount: 0.75 }}
+            >
               <div className="flex flex-col gap-4">
                 <div className="h-8 [&>svg]:h-full [&>svg]:w-auto" aria-role="image" aria-label={project.name} aria-hidden="true">
                   {project.logo}
@@ -46,7 +56,7 @@ export default function ProjectsSection() {
                   />
                 </div>
               </div>
-            </li>
+            </motion.li>
           ))}
         </ul>
       </Container>
