@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    turbo: {
+    turbopack: {
       rules: {
         '*.vert': {
           loaders: ['raw-loader'],
@@ -18,7 +17,13 @@ const nextConfig: NextConfig = {
         },
       },
     },
-  },
+    webpack: (config) => {
+      config.module.rules.push({
+        test: /\.(vert|frag|glsl)$/,
+        type: 'asset/source',
+      });
+      return config;
+    },
 };
 
 export default nextConfig;

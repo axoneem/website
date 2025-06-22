@@ -24,10 +24,10 @@ export default function ProjectsSection() {
               initial={{ opacity: 0.25 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              viewport={{ once: false, amount: 0.75 }}
+              viewport={{ once: false, amount: 0.01, margin: "-50% 0px -25% 0px" }}
             >
               <div className="flex flex-col gap-4">
-                <div className="h-8 [&>svg]:h-full [&>svg]:w-auto" aria-role="image" aria-label={project.name} aria-hidden="true">
+                <div className="h-8 [&>svg]:h-full [&>svg]:w-auto" aria-label={project.name}>
                   {project.logo}
                 </div>
                 <h4 className="text-4xl">{project.tagline}</h4>
