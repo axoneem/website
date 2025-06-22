@@ -46,7 +46,7 @@
 
 :root {
   --radius: 0.625rem;
-  --header-height: calc(var(--spacing) * 32);
+  --header-height: calc(var(--spacing) * 40);
   /* Dark theme as default */
   --background: #030608;
   --foreground: #ffffff;

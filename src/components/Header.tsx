@@ -1,6 +1,6 @@
 import { Container } from "./Container";
 import AxonemeNewLogo from "./logos/AxonemeNewLogo";
-import { ThreeDemo } from "./ThreeDemo";
+import { Animation } from "./Animation";
 import Link from 'next/link';
 
 export default function Header() {
@@ -18,7 +18,7 @@ export default function Header() {
         </ul>
       </Container>
       <div className="scroll-driven-background absolute overflow-hidden z-10 brightness-50">
-        <ThreeDemo />
+        <Animation />
       </div>
     </header>
   )

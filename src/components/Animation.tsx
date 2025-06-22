@@ -8,7 +8,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import vertexShader from '../shaders/vertex.vert';
 import fragmentShader from '../shaders/fragment.frag';
 
-export function ThreeDemo() {
+export function Animation() {
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
   const targetRef = useRef({ x: 0, y: 0 });
@@ -24,9 +24,12 @@ export function ThreeDemo() {
   }>({});
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current) {
+      return;
+    }
 
     const container = containerRef.current;
+
     // Always use full viewport dimensions to avoid sizing issues
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -55,8 +58,8 @@ export function ThreeDemo() {
       uniforms: {
         time: { value: 0 },
       },
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader
+      vertexShader,
+      fragmentShader,
     });
 
     const geometry = new THREE.SphereGeometry(1.5, 32, 32);
@@ -110,7 +113,9 @@ export function ThreeDemo() {
 
     // Animation loop
     const animate = () => {
-      if (!sceneRef.current.isPlaying) return;
+      if (!sceneRef.current.isPlaying) {
+        return;
+      }
       
       sceneRef.current.time = (sceneRef.current.time || 0) + 0.005;
       
@@ -139,7 +144,6 @@ export function ThreeDemo() {
 
     animate();
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
       container.removeEventListener('mousemove', handleMouseMove);
