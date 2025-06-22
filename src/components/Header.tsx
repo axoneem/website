@@ -17,7 +17,7 @@ export default function Header() {
           </li>
         </ul>
       </Container>
-      <div className="scroll-driven-background absolute overflow-hidden z-10">
+      <div className="scroll-driven-background absolute overflow-hidden z-10 brightness-50">
         <ThreeDemo />
       </div>
     </header>

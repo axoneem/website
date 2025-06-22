@@ -128,8 +128,6 @@ export function ThreeDemo() {
     container.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
-    
-    // Disable zoom controls
     controls.enableZoom = false;
     controls.enablePan = false;
     controls.enableRotate = false;
@@ -148,25 +146,20 @@ export function ThreeDemo() {
     const backgroundSphere = new THREE.Mesh(geometry, material);
     scene.add(backgroundSphere);
 
-    // Add dark overlay for better text contrast
-    const overlayGeometry = new THREE.PlaneGeometry(4, 4);
-    const overlayMaterial = new THREE.MeshBasicMaterial({
-      color: 0x000000,
-      transparent: true,
-      opacity: 0.4
-    });
-    const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
-    overlay.position.z = 0.5; // Position slightly in front of the background
-    scene.add(overlay);
+    // // Add dark overlay for better text contrast
+    // const overlayGeometry = new THREE.PlaneGeometry(4, 4);
+    // const overlayMaterial = new THREE.MeshBasicMaterial({
+    //   color: 0x000000,
+    //   transparent: true,
+    //   opacity: 0.4
+    // });
+    // const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
+    // overlay.position.z = 0.5; // Position slightly in front of the background
+    // scene.add(overlay);
 
     // Post-processing
     const composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
-
-    // Temporarily removed DotScreenShader to eliminate noise
-    // const effect1 = new ShaderPass(DotScreenShader);
-    // effect1.uniforms['scale'].value = 4;
-    // composer.addPass(effect1);
 
     // Store references
     sceneRef.current = {
