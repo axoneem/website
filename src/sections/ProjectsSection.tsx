@@ -15,15 +15,17 @@ export default function ProjectsSection() {
 
         <ul className="flex flex-col gap-48">
           {copy.projects.map((project) => (
-            <li className="grid grid-cols-1 md:grid-cols-2 gap-16" key={project.name}>
+            <li className="grid grid-cols-1 md:grid-cols-[5fr_7fr] lg:grid-cols-2 gap-16" key={project.name}>
               <div className="flex flex-col gap-4">
                 <div className="h-8 [&>svg]:h-full [&>svg]:w-auto" aria-role="image" aria-label={project.name} aria-hidden="true">
                   {project.logo}
                 </div>
                 <h4 className="text-4xl">{project.tagline}</h4>
                 <Chips values={project.tags} />
-                <div className="grid grid-cols-2 gap-4 py-4 text-sm">
-                  {project.description}
+                <div className="@container">
+                  <div className="grid grid-cols-1 @lg:grid-cols-2 gap-8 py-8 text-sm [&>p]:text-left">
+                    {project.description}
+                  </div>
                 </div>
                 <div className="flex flex-row gap-2">
                   {project.actions?.map((action) => (

@@ -48,13 +48,13 @@
   --radius: 0.625rem;
   --header-height: calc(var(--spacing) * 32);
   /* Dark theme as default */
-  --background: #000000;
+  --background: #030608;
   --foreground: #ffffff;
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.95 0.2 119.29 / 1);
+  --primary: oklch(0.95 0.2 119.29 / 1); /* #DFFF4F */
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -86,7 +86,8 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-black text-white;
+    @apply text-white;
+    background-color: #030608;
     font-family: var(--font-inter), sans-serif;
   }
 }
