@@ -6,7 +6,7 @@ import ProjectsSection from "@/sections/ProjectsSection";
 export default function Home() {
   return (
     <main className="w-full">
-      <Header />
+      {/* <Header /> */}
       
       <HeroSection />
       <ProjectsSection />
@@ -18,7 +18,7 @@ export default function Home() {
             Our Approach
           </h2>
           
-          <div className="max-w-4xl mx-auto text-lg leading-relaxed space-y-8 text-gray-300">
+          <div className="max-w-4xl mx-auto leading-relaxed space-y-8 text-gray-300">
             <p>
               We choose proven technologies over trending frameworks. We write tests, documentation, 
               and code that others can understand. We believe in craftsmanship over quick fixes.

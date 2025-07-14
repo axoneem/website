@@ -1,8 +1,9 @@
 import { Container } from "@/components/Container";
+import { Animation } from "@/components/Animation";
 
 export function HeroSection() {
   return (
-    <section className='min-h-[100dvh] pt-[var(--header-height)] flex items-end'>
+    <section className='relative flex items-end'>
       <Container className="hero-text-container relative z-50 py-24">
         <h1 
           className="hero-text-fade text-5xl md:text-7xl text-white mb-8 leading-tight"
@@ -32,6 +33,9 @@ export function HeroSection() {
           </p>
         </div>
       </Container>
+      <div className="scroll-driven-background absolute overflow-hidden z-10 brightness-50">
+        <Animation />
+      </div>
     </section>
   );
 }
