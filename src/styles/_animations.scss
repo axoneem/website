@@ -1,30 +1,53 @@
+.dynamic-card-bleed-animation {
+  animation-name: dynamic-card-bleed-animation;
+  animation-duration: auto;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  animation-timeline: scroll(root);
+  animation-range: 0dvh 20dvh;
+
+  top: -20dvh;
+}
+
+@keyframes dynamic-card-bleed-animation {
+  0% {
+    top: -20dvh;
+  }
+  100% {
+    top: 0;
+  }
+}
+
 .dynamic-card-animation {
   animation-name: dynamic-card-animation;
   animation-duration: auto;
   animation-timing-function: cubic-bezier(0.8, 0, 0.14, 1);
   animation-fill-mode: forwards;
   animation-timeline: scroll(root);
-  animation-range: 25dvh 50dvh;
+  animation-range: 20dvh 40dvh;
 
-  top: 0;
+  // top: 0;
   right: 0;
-  bottom: 0;
+  bottom: -20dvh;
   left: 0;
+  clip-path: inset(0);
 }
 
 @keyframes dynamic-card-animation {
   0% {
+    // position: fixed;
     top: 0;
     right: 0;
-    bottom: 0;
+    bottom: -20dvh;
     left: 0;
-    border-radius: 0;
+    clip-path: inset(0 round 0px);
   }
   100% {
+    // position: absolute;
     top: var(--dynamic-card-animation-top);
     right: calc(100dvw - var(--dynamic-card-animation-right));
     bottom: calc(100dvh - var(--dynamic-card-animation-bottom));
     left: var(--dynamic-card-animation-left);
-    border-radius: 16px;
+    clip-path: inset(0 round 16px);
   }
 }

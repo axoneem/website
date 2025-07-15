@@ -45,7 +45,7 @@ export function HeroSection() {
           "--dynamic-card-animation-left": `${heroSectionTextBoundingBox.left}px`,
         }}
       >
-        <Splash />
+        <Splash className={heroSectionStyles.splash}/>
       </div>
       <Container className={heroSectionStyles.card} disableGutters ref={heroSectionTextRef}>
         <div className={heroSectionStyles.textContainer}>
