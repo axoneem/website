@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import styles from '../styles/components/Container.module.scss';
 
-interface ContainerProps {
+interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   disableGutters?: boolean;
@@ -9,7 +9,11 @@ interface ContainerProps {
   style?: React.CSSProperties;
 }
 
-export function Container({ children, className = '', disableGutters = false, component: Component = 'div', style }: ContainerProps) {
+export function Container(props: ContainerProps) {
+  const { children, className, disableGutters, component, ...rest } = props;
+
+  const Component = component ?? 'div';
+
   const containerClasses = [
     styles.root,
     disableGutters ? styles.disableGutters : '',
@@ -17,7 +21,7 @@ export function Container({ children, className = '', disableGutters = false, co
   ].filter(Boolean).join(' ');
 
   return (
-    <Component className={`Container ${containerClasses}`} style={style}>
+    <Component className={containerClasses} {...rest}>
       {children}
     </Component>
   );

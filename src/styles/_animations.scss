@@ -1,10 +1,15 @@
 .dynamic-card-animation {
   animation-name: dynamic-card-animation;
   animation-duration: auto;
-  animation-timing-function: linear;
+  animation-timing-function: cubic-bezier(0.8, 0, 0.14, 1);
   animation-fill-mode: forwards;
   animation-timeline: scroll(root);
-  animation-range: 0dvh 15dvh;
+  animation-range: 25dvh 50dvh;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 @keyframes dynamic-card-animation {
@@ -17,8 +22,8 @@
   }
   100% {
     top: var(--dynamic-card-animation-top);
-    right: var(--dynamic-card-animation-right);
-    bottom: var(--dynamic-card-animation-bottom);
+    right: calc(100dvw - var(--dynamic-card-animation-right));
+    bottom: calc(100dvh - var(--dynamic-card-animation-bottom));
     left: var(--dynamic-card-animation-left);
     border-radius: 16px;
   }

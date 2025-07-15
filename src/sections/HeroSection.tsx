@@ -3,17 +3,36 @@
 import { Container } from "@/components/Container";
 import { Splash } from "@/components/Splash";
 import heroSectionStyles from "@/styles/sections/HeroSection.module.scss";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+interface BoundingBox {
+  top: number;
+  left: number;
+  bottom: number;
+  right: number;
+}
 
 export function HeroSection() {
   const heroSectionTextRef = useRef<HTMLDivElement>(null);
-
-  const heroSectionTextBoundingBox = heroSectionTextRef.current?.getBoundingClientRect() ?? {
+  const [heroSectionTextBoundingBox, setHeroSectionTextBoundingBox] = useState<BoundingBox>({
     top: 0,
     left: 0,
-    width: 0,
-    height: 0,
-  };
+    bottom: 0,
+    right: 0,
+  })
+
+  useEffect(() => {
+    if (heroSectionTextRef.current) {
+      const boundingBox = heroSectionTextRef.current.getBoundingClientRect();
+      setHeroSectionTextBoundingBox((prev) => ({
+        ...prev,
+        top: boundingBox.top,
+        right: boundingBox.right,
+        bottom: boundingBox.bottom,
+        left: boundingBox.left,
+      }));
+    }
+  }, [heroSectionTextRef]);
 
   return (
     <section className={heroSectionStyles.root}>
@@ -21,15 +40,15 @@ export function HeroSection() {
         className={heroSectionStyles.splashContainer}
         style={{
           "--dynamic-card-animation-top": `${heroSectionTextBoundingBox.top}px`,
-          "--dynamic-card-animation-right": `${heroSectionTextBoundingBox.left}px`,
-          "--dynamic-card-animation-bottom": `${heroSectionTextBoundingBox.top + heroSectionTextBoundingBox.height}px`,
+          "--dynamic-card-animation-right": `${heroSectionTextBoundingBox.right}px`,
+          "--dynamic-card-animation-bottom": `${heroSectionTextBoundingBox.bottom}px`,
           "--dynamic-card-animation-left": `${heroSectionTextBoundingBox.left}px`,
         }}
       >
         <Splash />
       </div>
-      <Container className={heroSectionStyles.card} disableGutters>
-        <div className={heroSectionStyles.textContainer} ref={heroSectionTextRef}>
+      <Container className={heroSectionStyles.card} disableGutters ref={heroSectionTextRef}>
+        <div className={heroSectionStyles.textContainer}>
           <h1>
             We Are Axoneme
           </h1>
