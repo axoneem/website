@@ -2,20 +2,26 @@
   .scroll-driven-background {
     animation-name: shrink-background;
     animation-duration: auto;
-    animation-timing-function: cubic-bezier(0.8, 0, 0.14, 1);
+    animation-timing-function: linear;  /* cubic-bezier(0.8, 0, 0.14, 1); */
     animation-fill-mode: forwards;
     animation-timeline: scroll(root);
-    animation-range: 0dvh 8dvh;
-
+    animation-range: 0dvh 15dvh;
+    /* Initial state - full viewport coverage */
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    height: 100%;
     width: 100%;
+    height: 100%;
     margin: 0;
     border-radius: 0;
+    transform: translateY(0);
   }
+}
+
+/* Create a reference for content sizing */
+.hero-content-card {
+  position: relative;
 }
 
 @keyframes shrink-background {
@@ -24,19 +30,22 @@
     right: 0;
     bottom: 0;
     left: 0;
-    height: 100%;
     width: 100%;
+    height: 100%;
     margin: 0;
     border-radius: 0;
+    transform: translateY(0);
   }
   100% {
-    top: 1.5rem;
+    top: 60%;
     right: 1.5rem;
     bottom: 1.5rem;
     left: 1.5rem;
-    height: calc(100% - 3rem);
     width: calc(100% - 3rem);
+    height: 30rem;
+    margin: 0;
     border-radius: 1.5rem;
+    transform: translateY(0);
   }
 }
 
@@ -47,19 +56,22 @@
       right: 0;
       bottom: 0;
       left: 0;
-      height: 100%;
       width: 100%;
+      height: 100%;
       margin: 0;
       border-radius: 0;
+      transform: translateY(0);
     }
     100% {
-      top: 2rem;
+      top: 60%;
       right: 2rem;
       bottom: 2rem;
       left: 2rem;
-      height: calc(100% - 4rem);
       width: calc(100% - 4rem);
+      height: 32rem;
+      margin: 0;
       border-radius: 1.5rem;
+      transform: translateY(0);
     }
   }
 }
@@ -73,10 +85,11 @@
     right: 0;
     bottom: 0;
     left: 0;
-    height: 100%;
     width: 100%;
+    height: 100%;
     margin: 0;
     border-radius: 0;
+    transform: translateY(0);
   }
 }
 
