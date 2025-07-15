@@ -10,7 +10,7 @@ import { motion } from "motion/react";
 
 export default function ProjectsSection() {
   return (
-    <section className="-mt-24">
+    <section>
       <Container>
         <h3 className="text-md mb-16">
           What we&apos;re building

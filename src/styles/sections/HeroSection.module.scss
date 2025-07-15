@@ -1,0 +1,25 @@
+@use "../animations";
+
+.root {
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-end;
+  padding: 128px 0;
+
+  .splashContainer {
+    position: absolute;
+    overflow: hidden;
+
+    @extend .dynamic-card-animation;
+  }
+
+  .card {  
+    position: relative;
+    z-index: 1;
+
+    .textContainer {
+      max-width: 50dvh;
+    }
+  }
+  
+}

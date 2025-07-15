@@ -7,8 +7,10 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import vertexShader from '../shaders/vertex.vert';
 import fragmentShader from '../shaders/fragment.frag';
+import splashStyles from '@/styles/components/Splash.module.scss';
+import clsx from 'clsx';
 
-export function Animation() {
+export function Splash({ className }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
   const targetRef = useRef({ x: 0, y: 0 });
@@ -111,7 +113,7 @@ export function Animation() {
 
     container.addEventListener('mousemove', handleMouseMove);
 
-    // Animation loop
+    // Splash loop
     const animate = () => {
       if (!sceneRef.current.isPlaying) {
         return;
@@ -160,7 +162,7 @@ export function Animation() {
   return (
     <div 
       ref={containerRef} 
-      className="w-full h-full"
+      className={clsx(splashStyles.root, className)}
       style={{
         margin: 0,
         padding: 0,

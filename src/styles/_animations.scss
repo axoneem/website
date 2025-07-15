@@ -1,0 +1,25 @@
+.dynamic-card-animation {
+  animation-name: dynamic-card-animation;
+  animation-duration: auto;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  animation-timeline: scroll(root);
+  animation-range: 0dvh 15dvh;
+}
+
+@keyframes dynamic-card-animation {
+  0% {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 0;
+  }
+  100% {
+    top: var(--dynamic-card-animation-top);
+    right: var(--dynamic-card-animation-right);
+    bottom: var(--dynamic-card-animation-bottom);
+    left: var(--dynamic-card-animation-left);
+    border-radius: 16px;
+  }
+}
