@@ -7,9 +7,9 @@ import Typography from "./Typography";
 import { NAV_LINKS } from "@/constants/nav";
 import clsx from "clsx";
 
-export default function Header() {
+export default function Header({ className }: { className?: string }) {
   return (
-    <header className={headerStyles.root}>
+    <header className={clsx(headerStyles.root, className)}>
       <Container component='nav' className={headerStyles.nav}>
         <Link href="/" className={clsx(headerStyles.logo, headerStyles.headerLink)}>
           <Axoneme />

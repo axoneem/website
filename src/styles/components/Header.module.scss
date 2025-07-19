@@ -4,7 +4,7 @@
 .root {
     $header-height: theme.spacing(4);
 
-    position: fixed;
+    position: relative;
     z-index: 20;
     top: theme.spacing(4);
     left: 0;

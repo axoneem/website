@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { createElement, ElementType, ComponentPropsWithoutRef } from "react";
+import { createElement, ElementType, ComponentPropsWithoutRef, forwardRef } from "react";
 import typographyStyles from '../styles/base/typography.module.scss';
 import { funnel, raleway } from '@/constants/font';
 
@@ -46,25 +46,19 @@ export type TypographyProps<C extends ElementType = ElementType> = BaseTypograph
     component?: C;
 } & Omit<ComponentPropsWithoutRef<C>, keyof BaseTypographyProps>;
 
-const typographyDefaultProps: Pick<TypographyProps, 'variant'> = {
-    variant: 'body1',
-}
-
 /**
  * Typography component that renders text with predefined styles
  * Based on Material-UI typography system
  */
-export default function Typography<C extends ElementType = 'p'>(
-    props: TypographyProps<C>
+const Typography = forwardRef<HTMLElement, TypographyProps>(function Typography(
+    props,
+    ref
 ) {
-    const { variant, component, className, children, ...rest } = {
-        ...typographyDefaultProps,
-        ...props,
-    };
+    const { variant = 'body1' as TypographyVariant, component, className, children, ...rest } = props;
 
-    const Component = component ?? variantTagMap[variant!];
+    const Component = component ?? variantTagMap[variant as TypographyVariant];
 
-    const isHeading = ['h1', 'h2'].includes(variant!);
+    const isHeading = ['h1', 'h2'].includes(variant);
 
     return createElement(
         Component,
@@ -75,8 +69,11 @@ export default function Typography<C extends ElementType = 'p'>(
                 isHeading ? funnel.className : raleway.className,
                 className
             ),
+            ref,
             ...rest
         },
         children
     );
-}
+});
+
+export default Typography;

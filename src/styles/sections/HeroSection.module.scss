@@ -1,65 +1,78 @@
 @use "../theme" as theme;
 @use "sass:math";
 
-.root { 
-  // min-height: 100dvh;
-  margin-top: 16rem;
-  display: flex;
-  flex-flow: column nowrap;
-  // justify-content: space-between;
-  justify-content: center;
-  // padding: theme.spacing(8) 0; // already applied in Section.module.scss
+.root {
+  position: relative;
 
-  .cardContainer {
-    position: relative;
-    z-index: 20;
-    padding-inline: math.div(theme.gutter('md'), 2);
+  .header {
+    position: absolute;
   }
 
-  .card {  
+  p {
     position: relative;
     z-index: 20;
+  }
 
-    padding-inline: math.div(theme.gutter('md'), 2);
-    padding-bottom: math.div(theme.gutter('md'), 2);
-    padding-top: theme.spacing(16) + math.div(theme.gutter('md'), 2);
+  .splashContainer {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    clip-path: inset(0 round 0px);
 
-    .textContainer {
-      color: white;
-      max-width: 70ch;
-
-      .bodyText {
-        margin-top: theme.spacing(4);
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-
-      & * {
-        display: inline-block;
-        color: inherit;
-      }
-
-      .highlight {
-        color: theme.theme-color('primary', 'main');
-        font-weight: 450;
-      }
-
-      .dash {
-        // color: theme.palette('text', 'secondary');
-        color: theme.theme-color('primary', 'main');
-        opacity: 0.5;
-        font-weight: 400;
-      }
+    .splash {
+      position: fixed;
+      inset: 0;
+      filter: brightness(0.5);
+      z-index: 10;
     }
   }
-  
-}
 
-.splash {
-  position: fixed;
-  inset: 0;
-  filter: brightness(0.5);
-  z-index: 10;
+  .contentContainer {
+    position: relative;
+    min-height: 100dvh;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    gap: theme.spacing(8);
+    z-index: 20;
+    margin-bottom: theme.spacing(16);
+    pointer-events: none;
+
+    & * {
+      margin: 0;
+    }
+  }
+
+  .bodyText {
+    max-width: 70ch;
+  }
+
+
+  color: white;
+
+  & * {
+    display: inline-block;
+    color: inherit;
+  }
+
+  .highlight {
+    color: theme.theme-color('primary', 'main');
+    font-weight: 450;
+  }
+
+  .dash {
+    // color: theme.palette('text', 'secondary');
+    color: theme.theme-color('primary', 'main');
+    opacity: 0.5;
+    font-weight: 400;
+  }
+  
+  .descriptionContainer {
+    position: relative;
+    z-index: 20;
+    
+    p {
+      max-width: 70ch;
+    }
+  }
 }
