@@ -1,0 +1,75 @@
+@use "sass:map";
+@use "sass:math";
+
+// =============================================================================
+// COLOR MANIPULATION FUNCTIONS (MUI-inspired)
+// =============================================================================
+
+/// clampValues a value between a minimum and maximum
+/// @param {Number} $value - The value to clampValue
+/// @param {Number} $min - Minimum value
+/// @param {Number} $max - Maximum value
+/// @return {Number} - clampValueed value
+@function clampValue($value, $min: 0, $max: 1) {
+  @return math.max($min, math.min($max, $value));
+}
+
+/// Lightens a color by a percentage
+/// @param {Color} $color - The color to lighten
+/// @param {Number} $coefficient - Amount to lighten (0-1)
+/// @return {Color} - Lightened color
+@function lighten($color, $coefficient: 0.1) {
+  @return mix(white, $color, $coefficient * 100%);
+}
+
+/// Darkens a color by a percentage
+/// @param {Color} $color - The color to darken
+/// @param {Number} $coefficient - Amount to darken (0-1)
+/// @return {Color} - Darkened color
+@function darken($color, $coefficient: 0.1) {
+  @return mix(black, $color, $coefficient * 100%);
+}
+
+/// Adds alpha transparency to a color
+/// @param {Color} $color - The base color
+/// @param {Number} $alpha - Alpha value (0-1)
+/// @return {Color} - Color with alpha
+@function alpha($color, $alpha: 1) {
+  @return rgba($color, clampValue($alpha, 0, 1));
+}
+
+/// Emphasizes a color (darkens light colors, lightens dark colors)
+/// @param {Color} $color - The color to emphasize
+/// @param {Number} $coefficient - Amount to emphasize (0-1)
+/// @return {Color} - Emphasized color
+@function emphasize($color, $coefficient: 0.15) {
+  @if lightness($color) > 50% {
+    @return darken($color, $coefficient);
+  } @else {
+    @return lighten($color, $coefficient);
+  }
+}
+
+/// Gets contrast text color for a background
+/// @param {Color} $background - Background color
+/// @return {Color} - Contrast text color (black or white)
+@function get-contrast-text($background) {
+  @if lightness($background) > 50% {
+    @return rgba(0, 0, 0, 0.87);
+  } @else {
+    @return rgba(255, 255, 255, 1);
+  }
+}
+
+/// Creates a color intent (primary, secondary, etc.) with main, light, dark variants
+/// @param {Color} $main - Main color
+/// @param {Number} $tonal-offset - Tonal offset for generating light/dark variants
+/// @return {Map} - Color intent map
+@function create-color-intent($main, $tonal-offset: 0.2) {
+  @return (
+    main: $main,
+    light: lighten($main, $tonal-offset),
+    dark: darken($main, $tonal-offset),
+    contrast-text: get-contrast-text($main),
+  );
+}

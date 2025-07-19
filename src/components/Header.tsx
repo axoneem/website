@@ -1,19 +1,26 @@
-import { Container } from "./Container";
-import AxonemeNewLogo from "./logos/AxonemeNewLogo";
+import Container from "./Container";
+import Axoneme from "./logos/Axoneme";
+// import AxonemeNewLogo from "./logos/AxonemeNewLogo";
 import Link from 'next/link';
+import headerStyles from "@/styles/components/Header.module.scss";
+import Typography from "./Typography";
+import { NAV_LINKS } from "@/constants/nav";
+import clsx from "clsx";
 
 export default function Header() {
   return (
-    <header className="relative top-0 left-0 right-0 z-40 text-white px-6 lg:px-8 py-8 h-[var(--header-height)]">
-      <Container component='nav' className="relative z-20 h-full flex items-center justify-between">
-        <div className="w-16 h-16 text-primary">
-          <AxonemeNewLogo />
-        </div>
+    <header className={headerStyles.root}>
+      <Container component='nav' className={headerStyles.nav}>
+        <Link href="/" className={clsx(headerStyles.logo, headerStyles.headerLink)}>
+          <Axoneme />
+        </Link>
         
-        <ul className="flex items-center">
-          <li>
-            <Link href="/">Home</Link>
-          </li>
+        <ul className={headerStyles.navList}>
+          {NAV_LINKS.map((link) => (
+            <Typography component='li' variant="link" className={headerStyles.navItem} key={link.label}>
+              <Link  href={link.href} className={headerStyles.headerLink}>{link.label}</Link>
+            </Typography>
+          ))}
         </ul>
       </Container>
     </header>

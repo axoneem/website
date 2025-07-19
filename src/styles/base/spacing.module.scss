@@ -1,0 +1,11 @@
+// Base spacing unit
+$base-spacing: 0.5rem; // 4px
+
+// Utility function version for calculations
+@function spacing($x) {
+  @if $x == 0 {
+    @return 0;
+  } @else {
+    @return $x * $base-spacing;
+  }
+}

@@ -9,7 +9,7 @@ interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   style?: React.CSSProperties;
 }
 
-export function Container(props: ContainerProps) {
+export default function Container(props: ContainerProps) {
   const { children, className, disableGutters, component, ...rest } = props;
 
   const Component = component ?? 'div';

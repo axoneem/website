@@ -1,0 +1,17 @@
+@use "sass:math";
+
+/// Calculates the overlay alpha value for a given elevation
+/// Inspired by https://github.com/material-components/material-components-ios/blob/bca36107405594d5b7b16265a5b0ed698f85a5ee/components/Elevation/src/UIColor%2BMaterialElevation.m#L61
+/// @param {Number} $elevation - The elevation level
+/// @return {Number} - The alpha value for the overlay
+@function get-overlay-alpha($elevation) {
+  $alpha-value: 0;
+  
+  @if $elevation < 1 {
+    $alpha-value: 5.11916 * math.pow($elevation, 2);
+  } @else {
+    $alpha-value: 4.5 * math.log($elevation + 1) + 2;
+  }
+  
+  @return math.div(math.round($alpha-value * 10), 1000);
+}

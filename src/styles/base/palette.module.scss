@@ -1,0 +1,228 @@
+@use "sass:map";
+@use "../functions/color.module.scss" as color;
+
+// =============================================================================
+// BASE COLORS
+// =============================================================================
+
+// Common colors
+$common: (
+  black: #000,
+  white: #fff,
+);
+
+// Essential grey colors for UI elements
+$grey: (
+  50: #fafafa,
+  100: #f5f5f5,
+  200: #eeeeee,
+  300: #e0e0e0,
+  400: #bdbdbd,
+  500: #9e9e9e,
+  600: #757575,
+  700: #616161,
+  800: #424242,
+  900: #212121,
+);
+
+// =============================================================================
+// THEME & SEVERITY COLORS
+// =============================================================================
+
+// Specific colors for theme intents
+$theme-colors: (
+  // Primary colors
+  primary-light: #7a55ff,    // blue-200
+  primary-main: #0514d1,     // blue-700
+  primary-dark: #0111a1,     // blue-800
+  
+  // Secondary colors  
+  secondary-light: #ce93d8,  // purple-200
+  secondary-main: #9c27b0,   // purple-500
+  secondary-dark: #7b1fa2,   // purple-700
+  
+  // Error colors
+  error-light: #ef5350,      // red-400
+  error-main: #f44336,       // red-500
+  error-dark: #d32f2f,       // red-700
+  
+  // Warning colors
+  warning-light: #ffa726,    // orange-400
+  warning-main: #ed6c02,     // custom warning
+  warning-dark: #e65100,     // orange-900
+  
+  // Info colors
+  info-light: #29b6f6,       // light-blue-400
+  info-main: #03a9f4,        // light-blue-500
+  info-dark: #0288d1,        // light-blue-700
+  
+  // Success colors
+  success-light: #66bb6a,    // green-400
+  success-main: #4caf50,     // green-500
+  success-dark: #2e7d32,     // green-800
+);
+
+// =============================================================================
+// THEME PALETTE FUNCTIONS
+// =============================================================================
+
+/// Gets a color from the theme colors map
+/// @param {String} $color-name - The color name
+/// @return {Color} - The color value
+@function get-theme-color($color-name) {
+  @return map.get($theme-colors, $color-name);
+}
+
+/// Gets a color from the grey palette
+/// @param {String|Number} $shade - The shade to get (50, 100, 200, etc.)
+/// @return {Color} - The color value
+@function get-grey($shade: 500) {
+  @return map.get($grey, $shade);
+}
+
+/// Creates a complete theme palette
+/// @param {String} $mode - Theme mode ('light' or 'dark')
+/// @param {Map} $overrides - Override values
+/// @return {Map} - Complete theme palette
+@function create-palette($mode: 'light', $overrides: ()) {
+  // Default color intents based on mode
+  $default-primary: if($mode == 'dark', 
+    color.create-color-intent(get-theme-color('primary-light')),
+    color.create-color-intent(get-theme-color('primary-main'))
+  );
+  
+  $default-secondary: if($mode == 'dark',
+    color.create-color-intent(get-theme-color('secondary-light')),
+    color.create-color-intent(get-theme-color('secondary-main'))
+  );
+  
+  $default-error: if($mode == 'dark',
+    color.create-color-intent(get-theme-color('error-main')),
+    color.create-color-intent(get-theme-color('error-dark'))
+  );
+  
+  $default-warning: if($mode == 'dark',
+    color.create-color-intent(get-theme-color('warning-light')),
+    color.create-color-intent(get-theme-color('warning-main'))
+  );
+  
+  $default-info: if($mode == 'dark',
+    color.create-color-intent(get-theme-color('info-light')),
+    color.create-color-intent(get-theme-color('info-dark'))
+  );
+  
+  $default-success: if($mode == 'dark',
+    color.create-color-intent(get-theme-color('success-light')),
+    color.create-color-intent(get-theme-color('success-dark'))
+  );
+
+  // Light/Dark mode specific values
+  $mode-colors: if($mode == 'light', (
+    text: (
+      primary: rgba(0, 0, 0, 0.87),
+      secondary: rgba(0, 0, 0, 0.6),
+      disabled: rgba(0, 0, 0, 0.38),
+    ),
+    background: (
+      default: map.get($common, white),
+      paper: map.get($common, white),
+    ),
+    divider: rgba(0, 0, 0, 0.12),
+    action: (
+      active: rgba(0, 0, 0, 0.54),
+      hover: rgba(0, 0, 0, 0.04),
+      selected: rgba(0, 0, 0, 0.08),
+      disabled: rgba(0, 0, 0, 0.26),
+      disabled-background: rgba(0, 0, 0, 0.12),
+      focus: rgba(0, 0, 0, 0.12),
+    ),
+  ), (
+    text: (
+      primary: map.get($common, white),
+      secondary: rgba(255, 255, 255, 0.7),
+      disabled: rgba(255, 255, 255, 0.5),
+    ),
+    background: (
+      default: #121212,
+      paper: #121212,
+    ),
+    divider: rgba(255, 255, 255, 0.12),
+    action: (
+      active: map.get($common, white),
+      hover: rgba(255, 255, 255, 0.08),
+      selected: rgba(255, 255, 255, 0.16),
+      disabled: rgba(255, 255, 255, 0.3),
+      disabled-background: rgba(255, 255, 255, 0.12),
+      focus: rgba(255, 255, 255, 0.12),
+    ),
+  ));
+
+  // Base palette
+  $palette: (
+    mode: $mode,
+    common: $common,
+    primary: $default-primary,
+    secondary: $default-secondary,
+    error: $default-error,
+    warning: $default-warning,
+    info: $default-info,
+    success: $default-success,
+    grey: $grey,
+  );
+
+  // Merge mode-specific colors
+  $palette: map.merge($palette, $mode-colors);
+
+  // Apply overrides
+  @if length($overrides) > 0 {
+    $palette: map.merge($palette, $overrides);
+  }
+
+  @return $palette;
+}
+
+// =============================================================================
+// DEFAULT PALETTE INSTANCE
+// =============================================================================
+
+$palette: create-palette('dark') !default;
+
+// =============================================================================
+// HELPER FUNCTIONS FOR ACCESSING PALETTE VALUES
+// =============================================================================
+
+/// Gets a palette value by path
+/// @param {String...} $keys - The path to the value
+/// @return {*} - The palette value
+@function palette($keys...) {
+  @return map.get($palette, $keys...);
+}
+
+/// Gets a color intent value (main, light, dark, contrast-text)
+/// @param {String} $intent - The color intent (primary, secondary, etc.)
+/// @param {String} $variant - The variant (main, light, dark, contrast-text)
+/// @return {Color} - The color value
+@function theme-color($intent, $variant: 'main') {
+  @return palette($intent, $variant);
+}
+
+/// Gets a text color
+/// @param {String} $variant - The text variant (primary, secondary, disabled)
+/// @return {Color} - The text color
+@function text-color($variant: 'primary') {
+  @return palette('text', $variant);
+}
+
+/// Gets a background color
+/// @param {String} $variant - The background variant (default, paper)
+/// @return {Color} - The background color
+@function background-color($variant: 'default') {
+  @return palette('background', $variant);
+}
+
+/// Gets an action color
+/// @param {String} $variant - The action variant (active, hover, selected, etc.)
+/// @return {Color} - The action color
+@function action-color($variant: 'active') {
+  @return palette('action', $variant);
+}

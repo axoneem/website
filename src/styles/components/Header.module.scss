@@ -1,0 +1,60 @@
+@use "../theme.scss";
+
+
+.root {
+    $header-height: theme.spacing(4);
+
+    position: fixed;
+    z-index: 20;
+    top: theme.spacing(4);
+    left: 0;
+    right: 0;
+    // z-index: 2;
+    height: $header-height;
+    
+    .headerLink {
+        color: theme.text-color('primary');
+        text-decoration: none;
+        outline: none;
+        font-weight: 500;
+
+        &:hover {
+            color: theme.text-color('secondary');
+        }
+    }
+    
+    .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: $header-height;
+
+        .logo {
+            // color: inherit;
+
+            svg {
+                width: auto;
+                height: $header-height;
+                display: block;
+                
+                // Bounding box
+                translate: -10% 10%;
+                scale: 118%;
+            }
+        }
+    
+        .navList {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            gap: theme.spacing(4);
+        }
+    
+        .navItem {
+            list-style: none;
+            display: block;
+        }
+    }
+    
+    
+}

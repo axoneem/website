@@ -1,0 +1,9 @@
+@use "../theme" as theme;
+
+.root {
+  padding: theme.spacing(8) 0;
+
+  & + & {
+    margin-top: theme.spacing(8);
+  }
+}

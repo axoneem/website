@@ -1,0 +1,21 @@
+@use "../theme" as theme;
+@use "../base/shadow.module" as shadow;
+@use "../functions/overlay.module" as overlay;
+
+.root {
+  background-color: theme.background-color('paper');
+  color: theme.text-color('primary');
+  transition: box-shadow 0.2s ease-in-out;
+  border-radius: theme.spacing(1); // Default border radius
+}
+
+// Generate elevation classes
+@for $i from 0 through 24 {
+  .elevation#{$i} {
+    box-shadow: #{shadow.get-shadow($i)};
+    background-image: linear-gradient(
+      rgba(255, 255, 255, overlay.get-overlay-alpha($i)),
+      rgba(255, 255, 255, overlay.get-overlay-alpha($i))
+    );
+  }
+}

@@ -160,7 +160,7 @@ export function Splash({ className }: { className?: string }) {
   }, []);
 
   return (
-    <div 
+    <div
       ref={containerRef} 
       className={clsx(splashStyles.root, className)}
       style={{

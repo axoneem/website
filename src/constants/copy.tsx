@@ -1,10 +1,14 @@
 import MockrLogo from "@/components/logos/MockrLogo";
 import PapayaLogo from "@/components/logos/PapayaLogo";
+import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
+
+import PapayaScreenshot1 from "../../public/images/projects/zisk3.png";
 
 interface Action {
   label: string;
   href: string;
+  variant?: "primary" | "secondary";
 }
 
 interface Highlight {
@@ -14,43 +18,53 @@ interface Highlight {
 export interface Project {
   name: string;
   logo: ReactNode;
-  tagline: string;
+  headline: ReactNode;
   tags: string[];
   description: ReactNode;
-  screenshotSrc: string;
+  screenshots: StaticImageData[];
   actions?: Action[];
   highlights?: Highlight[]
+  disabled?: boolean;
 }
 
 const projects: Project[] = [
   {
     name: "Papaya",
     logo: <PapayaLogo />,
-    tagline: "The local-first, open-source, personal finance app",
+    headline: <>Your finances, on your devices, with Papaya.</>,
+    // tagline: "The local-first, open-source, personal finance app",
+    description: <>Papaya is the local-first, open-source, personal finance app to track expenses, manage accounts, and categorize spending &mdash; without sending anything to the cloud.</>,
+
     tags: ["Personal Finance", "Local-First"],
-    description: <>
-      <p>Your financial data, on your devices. Papaya tracks expenses, manages accounts, and categorizes spending without sending anything to the cloud. Built with CouchDB&apos;s sync capabilities, your data stays consistent across all your devices without trusting third-party services with your sensitive financial information.</p>
-      <p>Papaya&apos;s straightforward interface and offline-first design makes financial tracking accessible regardless of technical or finance expertise. Personal finance management doesn&apos;t require sacrificing privacy or paying subscription fees.</p>
-    </>,
     actions: [
       {
         label: "Try Papaya",
         href: "https://papaya.axoneme.org",
+        variant: "primary",
+      },
+      {
+        label: "Learn More",
+        href: "/papaya",
+        variant: "secondary",
       }
     ],
-    screenshotSrc: "/images/projects/zisk3.png",
+    screenshots: [
+      PapayaScreenshot1,
+    ],
+
   },
-  {
-    name: "Mockr",
-    logo: <MockrLogo />,
-    tagline: "Mockr is a tool for generating mock data for your software development projects.",
-    tags: ["Software Development"],
-    description: <>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    </>,
-    screenshotSrc: "/images/projects/mockr.png",
-  },
+  // {
+  //   name: "Mockr",
+  //   logo: <MockrLogo />,
+  //   tagline: "Mockr is a tool for generating mock data for your software development projects.",
+  //   tags: ["Software Development"],
+  //   description: <>
+  //     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  //     <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  //   </>,
+  //   screenshotSrc: "/images/projects/mockr.png",
+  //   disabled: true,
+  // },
 ]
 
 const copy = {

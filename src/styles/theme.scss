@@ -1,80 +1,46 @@
-// Tailwind-compatible spacing scale
-$spacing-scale: (
-  0: 0,
-  1: 0.25rem,
-  2: 0.5rem,
-  3: 0.75rem,
-  4: 1rem,
-  5: 1.25rem,
-  6: 1.5rem,
-  7: 1.75rem,
-  8: 2rem,
-  9: 2.25rem,
-  10: 2.5rem,
-  11: 2.75rem,
-  12: 3rem,
-  14: 3.5rem,
-  16: 4rem,
-  20: 5rem,
-  24: 6rem,
-  28: 7rem,
-  32: 8rem,
-  36: 9rem,
-  40: 10rem,
-  44: 11rem,
-  48: 12rem,
-  52: 13rem,
-  56: 14rem,
-  60: 15rem,
-  64: 16rem,
-  72: 18rem,
-  80: 20rem,
-  96: 24rem
-);
+// =============================================================================
+// THEME CONFIGURATION
+// =============================================================================
 
-// Tailwind-compatible breakpoints
-$breakpoints: (
-  sm: 640px,
-  md: 768px,
-  lg: 1024px,
-  xl: 1280px,
-  2xl: 1536px,
-  3xl: 1600px,
-  4xl: 1920px,
-  5xl: 2560px,
-  6xl: 3840px,
-  7xl: 80rem
-);
+@use "sass:map";
+@use "base/spacing.module.scss" as spacing;
+@use "base/gutters.module.scss" as gutters;
 
-// Spacing function
-@function spacing($value) {
-  @if map-has-key($spacing-scale, $value) {
-    @return map-get($spacing-scale, $value);
-  } @else {
-    @warn "Unknown spacing value: #{$value}";
-    @return $value;
-  }
+// Forward all modules to make functions available as theme.* instead of module.*
+@forward "base/spacing.module.scss";
+@forward "base/palette.module.scss";
+@forward "functions/color.module.scss";
+@forward "base/breakpoints.module.scss";
+@forward "base/shadow.module.scss";
+@forward "functions/overlay.module.scss";
+
+@function gutter($key) {
+  @return spacing.spacing(map-get(gutters.$gutters, $key));
 }
 
-// Breakpoint function
-@function breakpoint($value) {
-  @if map-has-key($breakpoints, $value) {
-    @return map-get($breakpoints, $value);
-  } @else {
-    @warn "Unknown breakpoint value: #{$value}";
-    @return $value;
-  }
-}
+// Use modules for internal setup
+// @use "base/spacing.module.scss" as spacing;
+// @use "base/palette.module.scss" as palette;
+// @use "functions/color.module.scss" as color;
 
-// Mixin for responsive breakpoints
-@mixin responsive($breakpoint) {
-  @media (min-width: breakpoint($breakpoint)) {
-    @content;
-  }
-}
+// $text-primary: palette.text-color('primary');
+// $text-secondary: palette.text-color('secondary');
+// $text-disabled: palette.text-color('disabled');
 
-// Export the theme object for easier access
-$theme: (
-  spacing: $spacing-scale,
-  breakpoints: $breakpoints
-); 
+// $background-default: palette.background-color('default');
+// $background-paper: palette.background-color('paper');
+
+// $primary-main: palette.theme-color('primary', 'main');
+// $primary-light: palette.theme-color('primary', 'light');
+// $primary-dark: palette.theme-color('primary', 'dark');
+
+// $secondary-main: palette.theme-color('secondary', 'main');
+// $secondary-light: palette.theme-color('secondary', 'light');
+// $secondary-dark: palette.theme-color('secondary', 'dark');
+
+// $error-main: palette.theme-color('error', 'main');
+// $warning-main: palette.theme-color('warning', 'main');
+// $info-main: palette.theme-color('info', 'main');
+// $success-main: palette.theme-color('success', 'main');
+
+// $divider: palette.palette('divider');

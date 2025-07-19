@@ -1,4 +1,32 @@
+@use "../theme" as theme;
+
 .root {
   width: 100%;
   height: 100%;
+}
+
+// Container for the splash background with animation
+.container {
+  background: #000011;
+  position: absolute;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+// Expanded state - covers full viewport
+.expanded {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  clip-path: inset(0 round 0px);
+}
+
+// Shrunken state - uses CSS variables to fit content
+.shrunken {
+  top: var(--dynamic-card-animation-top);
+  right: calc(100dvw - var(--dynamic-card-animation-right));
+  bottom: calc(100dvh - var(--dynamic-card-animation-bottom));
+  left: var(--dynamic-card-animation-left);
+  clip-path: inset(0 round theme.spacing(4));
 }

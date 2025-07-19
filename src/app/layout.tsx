@@ -1,16 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, STIX_Two_Text } from "next/font/google";
 import "@/styles/main.scss";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const stixTwoText = STIX_Two_Text({
-  subsets: ["latin"],
-  variable: "--font-stix-two-text",
-});
+import defaultFont from "@/constants/font";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Axoneme",
@@ -28,9 +19,10 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body
-        className={`${inter.variable} ${inter.className} antialiased`}
+        className={`${defaultFont.className} antialiased`}
       >
         {children}
+        <Footer />
       </body>
     </html>
   );
