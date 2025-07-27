@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import clamp from '@mui/utils/clamp';
 
 /**

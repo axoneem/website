@@ -31,7 +31,7 @@ const projects: Project[] = [
   {
     name: "Papaya",
     logo: <PapayaLogo />,
-    headline: <>Your finances, on your devices, with Papaya.</>,
+    headline: <>Your finances, on your devices &mdash; with Papaya.</>,
     // tagline: "The local-first, open-source, personal finance app",
     description: <>Papaya is the local-first, open-source, personal finance app to track expenses, manage accounts, and categorize spending &mdash; without sending anything to the cloud.</>,
 

@@ -1,9 +1,7 @@
 @use "../theme" as theme;
 
 .root {
-    // min-height: 100dvh;
-    // overflow: hidden;
-    // position: relative;
+
 }
 
 .bodyText {
@@ -12,6 +10,7 @@
         
         & > span {
             position: relative;
+            --pseudo-translate: 0%;
 
             &::after {
                 content: ' ';
@@ -24,6 +23,7 @@
                 width: 100%;
                 height: 100%;
                 // background-color: red;
+                transform: translateX(var(--pseudo-translate));
             }
         }
     }
